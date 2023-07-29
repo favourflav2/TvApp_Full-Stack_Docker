@@ -3,8 +3,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 
-const { Pool, Client } = pg;
 
+const { Pool, Client } = pg;
 
 
 

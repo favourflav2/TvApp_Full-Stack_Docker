@@ -4,7 +4,6 @@ import cors from 'cors'
 import dotenv from "dotenv"
 import authRoutes from "./routes/authRoutes.js"
 import helmet from 'helmet'
-import rateLimit from 'express-rate-limit'
 import { env } from "custom-env";
 env(true);
 
@@ -28,14 +27,8 @@ var corsOptions = {
 app.use(cors(corsOptions))
 app.use(express.json({limit:"30mb", extended:true}))
 app.use(express.urlencoded({limit:"30mb", extended:true}))
-// Rate Limiter
-const limiter = rateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
-})
-app.use(limiter)
+
+
 
 const port = process.env.PORT || 5001
 
@@ -45,6 +38,7 @@ const port = process.env.PORT || 5001
 
   //app.set("db",dataDB)
   app.get("/",cors(),(req,res)=>{
+    console.log("Hello, this is the backend server")
     res.send("Hello, this is the backend server")
   })
   app.use("/auth",authRoutes)
