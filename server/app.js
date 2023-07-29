@@ -14,7 +14,7 @@ dotenv.config()
 app.use(morgan("dev"))
 app.use(helmet())
 // cors options
-const whiteList = [`${process.env.PRODUCTION_URL}`,`${process.env.LOCALHOST_URL}`]
+const whiteList = [`${process.env.PRODUCTION_URL}`,`${process.env.LOCALHOST_URL}`,'http://localhost:5001/']
 var corsOptions = {
     origin: function (origin, callback) {
       if (whiteList .indexOf(origin) !== -1) {
@@ -24,7 +24,7 @@ var corsOptions = {
       }
     }
   }
-app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.json({limit:"30mb", extended:true}))
 app.use(express.urlencoded({limit:"30mb", extended:true}))
 
@@ -41,7 +41,12 @@ const port = process.env.PORT || 5001
     console.log("Hello, this is the backend server")
     res.send("Hello, this is the backend server")
   })
-  app.use("/auth",authRoutes)
+  app.use("/auth",cors(corsOptions),authRoutes)
 
-  console.log(process.env.NODE_ENV)
-  console.log(process.env.POSTGRES_URI)
+
+  
+  if(process.env.NODE_ENV !== 'prod'){
+    console.log(process.env.POSTGRES_URI)
+  }else{
+    console.log("Postgres Hosted on cockaroach")
+  }
