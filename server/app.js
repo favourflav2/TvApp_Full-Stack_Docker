@@ -13,6 +13,10 @@ const app = express()
 dotenv.config()
 app.use(morgan("dev"))
 app.use(helmet())
+if(process.env.NODE_ENV == 'prod'){
+  app.set('trust proxy', 1)
+  app.get('/ip', (request, response) => response.send(request.ip))
+}
 // cors options
 const whiteList = [`${process.env.PRODUCTION_URL}`,`${process.env.LOCALHOST_URL}`,'http://localhost:5001/']
 var corsOptions = {
