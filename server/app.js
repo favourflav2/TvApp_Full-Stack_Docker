@@ -44,6 +44,9 @@ const port = process.env.PORT || 5001
   })
 
   //app.set("db",dataDB)
+  app.get("/",cors(),(req,res)=>{
+    res.send("Hello, this is the backend server")
+  })
   app.use("/auth",authRoutes)
 
   console.log(process.env.NODE_ENV)
